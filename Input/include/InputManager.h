@@ -6,7 +6,7 @@
 #include <mutex>
 
 using namespace GameInput::v3;
-namespace JGL {
+namespace JLib {
     // Thin wrapper over GameInput v3's polling API. IGameInput/IGameInputReading are plain COM
     // objects -- every GetCurrentReading() call hands back a NEW reference that must be Release()d,
     // so this class owns that lifetime internally and only ever exposes plain bool/float queries.

@@ -1,6 +1,6 @@
 #include "../include/InputManager.h"
 #include <algorithm>
-using namespace JGL;
+using namespace JLib;
 
 InputManager::~InputManager()
 {
