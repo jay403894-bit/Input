@@ -168,6 +168,28 @@ bool InputManager::IsKeyReleased(uint8_t virtualKey) const
     return !Contains(m_KeysDown, virtualKey) && Contains(m_PrevKeysDown, virtualKey);
 }
 
+bool InputManager::GetAnyKeyPressed(uint8_t& outKey) const
+{
+    for (uint8_t key : m_KeysDown) {
+        if (!Contains(m_PrevKeysDown, key)) {
+            outKey = key;
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<uint8_t> InputManager::GetKeysPressedThisFrame() const
+{
+    std::vector<uint8_t> pressed;
+    for (uint8_t key : m_KeysDown) {
+        if (!Contains(m_PrevKeysDown, key)) {
+            pressed.push_back(key);
+        }
+    }
+    return pressed;
+}
+
 bool InputManager::IsMouseButtonDown(GameInputMouseButtons button) const
 {
     return (m_MouseState.buttons & button) != 0;

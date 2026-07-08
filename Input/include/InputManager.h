@@ -39,6 +39,17 @@ namespace JLib {
         bool IsKeyPressed(uint8_t virtualKey) const;  // true only on the frame it transitions down
         bool IsKeyReleased(uint8_t virtualKey) const; // true only on the frame it transitions up
 
+        // "Which key, if any, was just pressed" -- for menu/rebind UI ("press any key to continue",
+        // key-rebinding screens) where the caller doesn't know the virtual-key code up front and
+        // needs to find out from the input itself, instead of polling a specific IsKeyPressed(vk).
+        // Returns the FIRST newly-pressed key this frame (arbitrary order if multiple keys went
+        // down in the same frame -- GameInput reports a snapshot, not per-key timestamps within a
+        // frame) via outKey, true if any key transitioned down; false (outKey untouched) otherwise.
+        bool GetAnyKeyPressed(uint8_t& outKey) const;
+        // All keys that newly transitioned down this frame, not just the first -- for the rare case
+        // that matters (e.g. chord detection). Empty if none.
+        std::vector<uint8_t> GetKeysPressedThisFrame() const;
+
         // Actual screen-space cursor position (GameInputMouseState::absolutePositionX/Y) -- what
         // you want for "where is the cursor right now" (UI hit-testing, click position, etc.).
         DirectX::XMFLOAT2 GetMousePos() const {
